@@ -2883,6 +2883,11 @@ model_ref context::get_model()
     return model;
 }
 
+expr_ref context::get_tail_pob()
+{
+    return expr_ref(unblockedPob->post(), unblockedPob->get_ast_manager());
+}
+
 expr_ref context::get_answer()
 {
     switch(m_last_result) {
@@ -3126,7 +3131,10 @@ bool context::check_reachability ()
             checkpoint ();
             node = last_reachable;
             last_reachable = nullptr;
-            if (m_pob_queue.is_root(*node)) { return true; }
+            if (m_pob_queue.is_root(*node)) {    
+                unblockedPob = node;  //pob_ref first_reachable;
+                return true; 
+            }
             if (is_reachable (*node->parent())) {
                 last_reachable = node->parent ();
                 SASSERT(last_reachable->is_closed());

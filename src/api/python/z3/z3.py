@@ -6696,6 +6696,9 @@ class Solver(Z3PPObject):
         except Z3Exception:
             raise Z3Exception("model is not available")
 
+    def tailPob(self):
+        _to_expr_ref(self.ctx.get_tail_pob(), self.ctx)
+
     def import_model_converter(self, other):
         """Import model converter from other into the current solver"""
         Z3_solver_import_model_converter(self.ctx.ref(), other.solver, self.solver)

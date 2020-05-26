@@ -641,6 +641,23 @@ extern "C" {
         Z3_CATCH_RETURN(nullptr);
     }
 
+    //Goal: Return pob in a format to make sense w/ input variables
+    //Copy and modify get_proof function?
+    /*Z3_ast Z3_API Z3_solver_get_pob(Z3_context c, Z3_solver s) {
+        Z3_TRY;
+        LOG_Z3_solver_get_pob(c, s);
+        RESET_ERROR_CODE();
+        init_solver(c, s);
+        expr * p = to_solver_ref(s)->get_tail_pob();
+        if (!p) {
+            SET_ERROR_CODE(Z3_INVALID_USAGE, "there is no current proof");
+            RETURN_Z3(nullptr);
+        }
+        mk_c(c)->save_ast_trail(p);
+        RETURN_Z3(of_ast(p));
+        Z3_CATCH_RETURN(nullptr);
+    }*/
+
     Z3_ast Z3_API Z3_solver_get_proof(Z3_context c, Z3_solver s) {
         Z3_TRY;
         LOG_Z3_solver_get_proof(c, s);

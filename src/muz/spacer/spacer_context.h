@@ -986,6 +986,8 @@ class context {
     json_marshaller      m_json_marshaller;
     std::fstream*        m_trace_stream;
 
+    pob_ref              unblockedPob;
+
     // Solve using gpdr strategy
     lbool gpdr_solve_core();
     bool gpdr_check_reachability(unsigned lvl, model_search &ms);
@@ -1124,6 +1126,7 @@ public:
     void add_invariant (func_decl *pred, expr* property);
     model_ref get_model();
     proof_ref get_proof() const {return get_ground_refutation();}
+    expr_ref get_tail_pob();
 
     expr_ref get_constraints (unsigned lvl);
     void add_constraint (expr *c, unsigned lvl);
