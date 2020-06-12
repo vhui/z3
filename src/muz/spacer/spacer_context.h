@@ -987,6 +987,7 @@ class context {
     std::fstream*        m_trace_stream;
 
     pob_ref              unblockedPob;
+    pob_ref              unblockedLastPob;
 
     // Solve using gpdr strategy
     lbool gpdr_solve_core();

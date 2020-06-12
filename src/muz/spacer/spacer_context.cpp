@@ -3132,14 +3132,21 @@ bool context::check_reachability ()
             node = last_reachable;
             last_reachable = nullptr;
             if (m_pob_queue.is_root(*node)) {    
-                unblockedPob = node;  //pob_ref first_reachable;
-                IF_VERBOSE(1, verbose_stream() << "Unblocked pob: " << unblockedPob->pt().head()->get_name()
-                        << " level: " << unblockedPob->level()
-                        << " exprID: " << unblockedPob->post()->get_id() << "\n"
-                        << mk_epp(unblockedPob->post(), m) << "\n\n" << std::flush;);
+                /*unblockedLastPob = node;  //pob_ref first_reachable;
+                IF_VERBOSE(1, verbose_stream() << "Last pob: " << unblockedLastPob->pt().head()->get_name()
+                        << " level: " << unblockedLastPob->level()
+                        << " exprID: " << unblockedLastPob->post()->get_id() << "\n"
+                        << mk_epp(unblockedLastPob->post(), m) << "\n\n" << std::flush;); */
                 return true; 
             }
             if (is_reachable (*node->parent())) {
+                //at THIS point, we now know: pob REACHABLE, so unblocked Pob here!
+                unblockedPob = node;  //pob_ref first_reachable;
+                IF_VERBOSE(1, verbose_stream() << "Unblocked FIRST? pob: " << unblockedPob->pt().head()->get_name()
+                        << " level: " << unblockedPob->level()
+                        << " exprID: " << unblockedPob->post()->get_id() << "\n"
+                        << mk_epp(unblockedPob->post(), m) << "\n\n" << std::flush;);
+
                 last_reachable = node->parent ();
                 SASSERT(last_reachable->is_closed());
                 last_reachable->close ();
@@ -3382,7 +3389,6 @@ lbool context::expand_pob(pob& n, pob_ref_buffer &out)
     }
 
     predecessor_eh();
-    //at THIS point, we now know: pob REACHABLE, so unblocked Pob here!
 
     lbool res = n.pt ().is_reachable (n, &cube, &model, uses_level, is_concrete, r,
                                       reach_pred_used, num_reuse_reach);
